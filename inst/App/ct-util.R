@@ -8,9 +8,9 @@ library(ggplot2)
 library(ctrialsgov)
 
 # Create the connection to a database and "studies" and "sponsors" tables.
-con = dbConnect(
+con <- dbConnect(
   duckdb(
-    file.path("..","..","..","ctgov.duckdb"),
+    file.path("..", "..", "..", "ctgov.duckdb"),
     read_only = TRUE
   )
 )
@@ -18,17 +18,18 @@ con = dbConnect(
 if (length(dbListTables(con)) == 0) {
   stop("Problem reading from connection.")
 }
-ctgov_load_duckdb_file(file.path("..","..","..","ctgov-derived.duckdb"))
+ctgov_load_duckdb_file(file.path("..", "..", "..", "ctgov-derived.duckdb"))
 
 
-studies = tbl(con, "studies")
-sponsors = tbl(con, "sponsors")
-conditions = tbl(con, "conditions")
+studies <- tbl(con, "studies")
+sponsors <- tbl(con, "sponsors")
+conditions <- tbl(con, "conditions")
 
 
-cond = conditions %>% select(nct_id, name)
-spons = sponsors %>% select(nct_id, lead_or_collaborator, name)
-studies = left_join(left_join(studies, cond, by = "nct_id"), spons, by="nct_id")
+cond <- conditions %>% select(nct_id, name)
+spons <- sponsors %>% select(nct_id, lead_or_collaborator, name)
+studies <- left_join(left_join(studies, cond, by = "nct_id"),
+                     spons, by = "nct_id")
 
 
 
@@ -42,15 +43,15 @@ studies = left_join(left_join(studies, cond, by = "nct_id"), spons, by="nct_id")
 #' @param match_all should we look for values that match all of the keywords
 #' (intersection) or any of the keywords (union)? (default FALSE; union).
 query_kwds <- function(d, kwds, column, ignore_case = TRUE, match_all = FALSE) {
-  kwds = kwds[kwds != ""]
-  kwds = paste0("%", kwds, "%") |>
+  kwds <- kwds[kwds != ""]
+  kwds <- paste0("%", kwds, "%") |>
     gsub("'", "''", x = _)
   if (ignore_case) {
     like <- " ilike "
-  } else{
+  } else {
     like <- " like "
   }
-  query = paste(
+  query <- paste(
     paste0(column, like, "'", kwds, "'"),
     collapse = ifelse(match_all, " AND ", " OR ")
   )
@@ -78,16 +79,16 @@ plot_phase_histogram = function(x) {
 #' @param d the studies to get the number of concurrent trials for.
 #' @return A tibble with a `date` column and a `count` of the number of
 #' concurrent trials at that date.
-get_concurrent_trials = function(d) {
+get_concurrent_trials <- function(d) {
   # Get all of the unique dates.
-  all_dates = d |>
+  all_dates <- d |>
     pivot_longer(cols = everything()) |> # |>select(-name)
     distinct() |>
     arrange(value) |>
     na.omit() |>
     rename(date = value)
 
-  within_date = function(date, starts, ends) {
+  within_date <- function(date, starts, ends) {
     date >= starts & date <= ends
   }
 
@@ -103,16 +104,16 @@ get_concurrent_trials = function(d) {
 }
 
 
-plot_concurrent_studies = function(studies) {
+plot_concurrent_studies <- function(studies) {
   plot(mtcars$mpg, mtcars$cyl)
 }
 
 # Create a histogram of the conditions returned by a brief title keyword search
 # @param x the database table.
 # @param brief_title_kw the brief title keywords to look for. This is optional.
-plot_condition_histogram = function(x) {
+plot_condition_histogram <- function(x) {
   x$name.x[is.na(x$name.x)] = "NA"
-  x = x |>
+  x <- x |>
     select(name.x) |>
     group_by(name.x) |>
     summarize(n = n()) %>%
@@ -125,9 +126,3 @@ plot_condition_histogram = function(x) {
     ylab("Count") +
     theme(axis.text.x = element_text(angle = 45, hjust = 1))
 }
-
-
-
-
-
-

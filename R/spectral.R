@@ -26,12 +26,12 @@ spectral_signature <- function(x, take_log = FALSE, inverse = TRUE) {
     ret <- ret |>
       mutate_at(vars(X, Y, Z), log)
   }
-  ret <- ret[seq_len(ceiling(nrow(ret)/2)), ]
+  ret <- ret[seq_len(ceiling(nrow(ret) / 2)), ]
   longest_period <-
     as.numeric(difftime(max(x$time), min(x$time), units = "secs"))
   xt <- x$time[1:2]
   shortest_period <- as.numeric(difftime(max(xt), min(xt), units = "secs"))
-  ret$freq <- 1/seq(longest_period, shortest_period, length.out = nrow(ret))
+  ret$freq <- 1 / seq(longest_period, shortest_period, length.out = nrow(ret))
   ret
 }
 

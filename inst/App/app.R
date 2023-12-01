@@ -55,7 +55,8 @@ ui <- fluidPage(
       #Yuhan-feature 4:
       #Add checkboxes so that queries can be subset on lead or collaborator
       checkboxGroupInput("lead_or_collaborator", ("Lead or Collaborator"),
-                         choices = list("Lead" = "lead", "Collaborator" = "collaborator"),
+                         choices = list("Lead" = "lead",
+                                        "Collaborator" = "collaborator"),
                          selected = NULL),
     ),
 
@@ -77,17 +78,18 @@ ui <- fluidPage(
 # Define server logic required to draw a histogram
 server <- function(input, output) {
 
-  get_studies = reactive({
-    si = input$brief_title_kw |>
+  get_studies <- reactive({
+    si <- input$brief_title_kw |>
       strsplit(",") |>
       unlist() |>
       trimws()
     # input for the sponsor name
-    ss = input$name.y |>
+    ss <- input$name.y |>
       strsplit(",") |>
       unlist() |>
       trimws()
-    # return studies depending on user input  of brief title keyword and sponsor name
+    # return studies
+    #depending on user input of brief title keyword and sponsor name
     if (input$brief_title_kw == "" & input$name.y == "") {
       ret = studies
       }
@@ -96,7 +98,8 @@ server <- function(input, output) {
       else if (input$brief_title_kw == "" & input$name.y != ""){
       ret = query_kwds(studies, ss, '"name.y"', match_all = TRUE)
     } else{
-      ret = query_kwds(query_kwds(studies, si, "brief_title", match_all = TRUE), ss, '"name.y"', match_all = TRUE)
+      ret = query_kwds(query_kwds(studies, si, "brief_title", match_all = TRUE),
+                       ss, '"name.y"', match_all = TRUE)
     }
       if (input$source_class != "All"){
         ret = ret %>% filter(source_class %in% !!input$source_class)}
@@ -105,18 +108,19 @@ server <- function(input, output) {
       if (!is.null(input$overall_status)){
         ret = ret %>% filter(overall_status %in% !!input$overall_status)}
       if (!is.null(input$lead_or_collaborator)){
-        ret = ret %>% filter(lead_or_collaborator %in% !!input$lead_or_collaborator)}
+        ret = ret %>%
+          filter(lead_or_collaborator %in% !!input$lead_or_collaborator)}
     ret |>
       head(max_num_studies) |>
       collect()
   })
   #phase plot showing the phase distribution of studies we are examining
-  output$phase_plot = renderPlot({
+  output$phase_plot <- renderPlot({
     get_studies() |>
       plot_phase_histogram()
   })
   #concurrent plot showing the concurrent studies we are examining
-  output$concurrent_plot = renderPlot({
+  output$concurrent_plot <- renderPlot({
     get_studies() |>
       select(start_date, completion_date) |>
       get_concurrent_trials() |>
@@ -128,18 +132,20 @@ server <- function(input, output) {
   })
 
   #histogram showing the conditions that trials in a query are examining.
-  output$condition_plot = renderPlot({
+  output$condition_plot <- renderPlot({
     get_studies()  %>%
       plot_condition_histogram()
   })
 
   #trial table showing the basic information of the trials result
-  output$trial_table = renderDataTable({
+  output$trial_table <- renderDataTable({
     get_studies() |>
-      select(nct_id, brief_title, start_date, completion_date,study_type,overall_status, name.y) |>
+      select(nct_id, brief_title, start_date,
+             completion_date,study_type,overall_status, name.y) |>
       rename(`NCT ID` = nct_id, `Brief Title` = brief_title,
              `Start Date` = start_date, `Completion Date` = completion_date,
-             `Study Type` = study_type, `Study Status` = overall_status, `Sponsor Name` = name.y)
+             `Study Type` = study_type,
+             `Study Status` = overall_status, `Sponsor Name` = name.y)
   })
 
 }
