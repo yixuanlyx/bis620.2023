@@ -2,4 +2,4 @@
 
 usethis::use_data(accel, overwrite = TRUE)
 
-accel = readRDS("accel.rds")
+accel <- readRDS("accel.rds")

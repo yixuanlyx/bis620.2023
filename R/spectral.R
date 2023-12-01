@@ -15,25 +15,25 @@
 #' @importFrom dplyr vars mutate_at select
 #' @aliases spec_sig
 #' @export
-spectral_signature = function(x, take_log = FALSE, inverse = TRUE) {
+spectral_signature <- function(x, take_log = FALSE, inverse = TRUE) {
 
   #map will iterate the whole thing, df means datafeame, c means column
-  ret = map_dfc(
+  ret <- map_dfc(
     x |> select(X, Y, Z),
     ~ fft(.x, inverse = inverse) |> Mod()
   )
   if (take_log) {
-    ret = ret |>
+    ret <- ret |>
       mutate_at(vars(X, Y, Z), log)
   }
-  ret = ret[seq_len(ceiling(nrow(ret)/2)), ]
-  longest_period =
+  ret <- ret[seq_len(ceiling(nrow(ret)/2)), ]
+  longest_period <-
     as.numeric(difftime(max(x$time), min(x$time), units = "secs"))
-  xt = x$time[1:2]
-  shortest_period = as.numeric(difftime(max(xt), min(xt), units = "secs"))
-  ret$freq = 1/seq(longest_period, shortest_period, length.out = nrow(ret))
+  xt <- x$time[1:2]
+  shortest_period <- as.numeric(difftime(max(xt), min(xt), units = "secs"))
+  ret$freq <- 1/seq(longest_period, shortest_period, length.out = nrow(ret))
   ret
 }
 
 #' @export
-spec_sig = spectral_signature
+spec_sig <- spectral_signature

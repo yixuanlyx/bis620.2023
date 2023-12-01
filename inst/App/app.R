@@ -1,7 +1,7 @@
 library(shiny)
 
 source("ct-util.R")
-max_num_studies = 5000
+max_num_studies <- 5000
 # Define UI for application that draws a histogram
 ui <- fluidPage(
 
@@ -13,29 +13,31 @@ ui <- fluidPage(
     sidebarPanel(
       textInput("brief_title_kw", "Brief title keywords"),
       #Add a drop-down so that queries can be subsetted on sponsor type
-      selectInput("source_class",("Sponsor Type"),
-                         choices = list("All",
-                                        "Federal" = "FED",
-                                        "Individual" = "INDIV",
-                                        "Industry" = "INDUSTRY" ,
-                                        "Network" = "NETWORK",
-                                        "NIH" = "NIH",
-                                        "Other" = "OTHER",
-                                        "Other gov" = "OTHER_GOV",
-                                        "Unknown" = "UNKNOWN")),
+      selectInput("source_class", ("Sponsor Type"),
+                  choices = list("All",
+                                 "Federal" = "FED",
+                                 "Individual" = "INDIV",
+                                 "Industry" = "INDUSTRY",
+                                 "Network" = "NETWORK",
+                                 "NIH" = "NIH",
+                                 "Other" = "OTHER",
+                                 "Other gov" = "OTHER_GOV",
+                                 "Unknown" = "UNKNOWN")),
 
-      #Yixuan-feature 1: Add checkboxes so that queries can be subset on study type
+      #Yixuan-feature 1:
+      #Add checkboxes so that queries can be subset on study type
       checkboxGroupInput("study_type","Study Type",
-                   c("Interventional",
-                     "Observational",
-                     "Observational [Patient Registry]",
-                     "Expanded Access"),
-                   selected = NULL),
-      #Yixuan-feature 2: Add checkboxes so that queries can be subset on study status
-      checkboxGroupInput("overall_status",("Study Status"),
-                         c("Completed" ,
-                           "Enrolling by invitation" ,
-                           "Recruiting" ,
+                         c("Interventional",
+                           "Observational",
+                           "Observational [Patient Registry]",
+                           "Expanded Access"),
+                         selected = NULL),
+      #Yixuan-feature 2:
+      #Add checkboxes so that queries can be subset on study status
+      checkboxGroupInput("overall_status", ("Study Status"),
+                         c("Completed",
+                           "Enrolling by invitation",
+                           "Recruiting",
                            "Unknown status",
                            "Active, not recruiting",
                            "Approved for marketing",
@@ -47,21 +49,24 @@ ui <- fluidPage(
                            "Suspended",
                            "No longer available",
                            "Withheld")),
-      #Yuhan-feature 3: Add a text input so that queries can be subset on sponsor name
+      #Yuhan-feature 3:
+      #Add a text input so that queries can be subset on sponsor name
       textInput("name.y", "Sponsor Name"),
-      #Yuhan-feature 4: Add checkboxes so that queries can be subset on lead or collaborator
+      #Yuhan-feature 4:
+      #Add checkboxes so that queries can be subset on lead or collaborator
       checkboxGroupInput("lead_or_collaborator", ("Lead or Collaborator"),
                          choices = list("Lead" = "lead", "Collaborator" = "collaborator"),
                          selected = NULL),
     ),
 
-    # Show a plot of the generated distribution
+    #Show a plot of the generated distribution
     mainPanel(
       tabsetPanel(
         type = "tabs",
         tabPanel("Phase", plotOutput("phase_plot")),
         tabPanel("Concurrent", plotOutput("concurrent_plot")),
-        #Add a new tab that gives a histogram showing the conditions that trials in a query are examining.
+        #Add a new tab that gives a histogram showing the conditions
+        #that trials in a query are examining.
         tabPanel("Condition", plotOutput("condition_plot"))
       ),
       dataTableOutput("trial_table")
