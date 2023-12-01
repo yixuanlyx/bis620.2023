@@ -93,23 +93,22 @@ server <- function(input, output) {
     #depending on user input of brief title keyword and sponsor name
     if (input$brief_title_kw == "" & input$name.y == "") {
       ret <- studies
-    }
-    else if (input$brief_title_kw != "" & input$name.y == "") {
-      ret = query_kwds(studies, si, "brief_title", match_all = TRUE)}
-      else if (input$brief_title_kw == "" & input$name.y != ""){
-      ret = query_kwds(studies, ss, '"name.y"', match_all = TRUE)
-    } else{
-      ret = query_kwds(query_kwds(studies, si, "brief_title", match_all = TRUE),
+    } else if (input$brief_title_kw != "" & input$name.y == "") {
+      ret <- query_kwds(studies, si, "brief_title", match_all = TRUE)
+    } else if (input$brief_title_kw == "" & input$name.y != ""){
+      ret <- query_kwds(studies, ss, '"name.y"', match_all = TRUE)
+    } else {
+      ret <- query_kwds(query_kwds(studies, si, "brief_title", match_all = TRUE),
                        ss, '"name.y"', match_all = TRUE)
     }
       if (input$source_class != "All"){
-        ret = ret %>% filter(source_class %in% !!input$source_class)}
+        ret <- ret %>% filter(source_class %in% !!input$source_class)}
       if (!is.null(input$study_type)){
-        ret = ret %>% filter(study_type %in% !!input$study_type)}
+        ret <- ret %>% filter(study_type %in% !!input$study_type)}
       if (!is.null(input$overall_status)){
-        ret = ret %>% filter(overall_status %in% !!input$overall_status)}
+        ret <- ret %>% filter(overall_status %in% !!input$overall_status)}
       if (!is.null(input$lead_or_collaborator)){
-        ret = ret %>%
+        ret <- ret %>%
           filter(lead_or_collaborator %in% !!input$lead_or_collaborator)}
     ret |>
       head(max_num_studies) |>

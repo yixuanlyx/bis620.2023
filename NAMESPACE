@@ -2,7 +2,7 @@
 
 export(hello)
 export(plot_accel)
-export(runApp)
+export(runapp)
 export(spec_sig)
 export(spectral_signature)
 importFrom(dplyr,mutate_at)

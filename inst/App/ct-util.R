@@ -61,9 +61,9 @@ query_kwds <- function(d, kwds, column, ignore_case = TRUE, match_all = FALSE) {
 # Create a histogram of the phases returned by a brief title keyword search
 # @param d the database table.
 # @param brief_title_kw the brief title keywords to look for. This is optional.
-plot_phase_histogram = function(x) {
-  x$phase[is.na(x$phase)] = "NA"
-  x = x |>
+plot_phase_histogram <- function(x) {
+  x$phase[is.na(x$phase)] <- "NA"
+  x <- x |>
     select(phase) |>
     group_by(phase) |>
     summarize(n = n())
@@ -93,7 +93,7 @@ get_concurrent_trials <- function(d) {
   }
 
   # Get the number of concurrent trials at each of the unique dates.
-  all_dates$count =
+  all_dates$count <-
     map_dbl(
       all_dates$date,
       ~ .x |>
@@ -112,7 +112,7 @@ plot_concurrent_studies <- function(studies) {
 # @param x the database table.
 # @param brief_title_kw the brief title keywords to look for. This is optional.
 plot_condition_histogram <- function(x) {
-  x$name.x[is.na(x$name.x)] = "NA"
+  x$name.x[is.na(x$name.x)] <- "NA"
   x <- x |>
     select(name.x) |>
     group_by(name.x) |>
