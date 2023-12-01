@@ -99,7 +99,7 @@ server <- function(input, output) {
       ret <- query_kwds(studies, ss, '"name.y"', match_all = TRUE)
     } else {
       ret <- query_kwds(query_kwds(studies, si, "brief_title",
-                                   match_all = TRUE),ss, '"name.y"',
+                                   match_all = TRUE), ss, '"name.y"',
                         match_all = TRUE)
     }
     if (input$source_class != "All") {
@@ -146,7 +146,7 @@ server <- function(input, output) {
   output$trial_table <- renderDataTable({
     get_studies() |>
       select(nct_id, brief_title, start_date,
-             completion_date,study_type,overall_status, name.y) |>
+             completion_date, study_type, overall_status, name.y) |>
       rename(`NCT ID` = nct_id, `Brief Title` = brief_title,
              `Start Date` = start_date, `Completion Date` = completion_date,
              `Study Type` = study_type,
