@@ -8,7 +8,18 @@
 [![R-CMD-check](https://github.com/yixuanlyx/bis620.2023/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/yixuanlyx/bis620.2023/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-The goal of bis620.2023 is to …
+<!-- badges: start -->
+
+[![R-CMD-check](https://github.com/yixuanlyx/bis620.2023/actions/workflows/lint.yaml/badge.svg)](https://github.com/yixuanlyx/bis620.2023/actions/workflows/lint.yaml)
+<!-- badges: end -->
+
+<!-- badges: start -->
+
+[![R-CMD-check](https://github.com/yixuanlyx/bis620.2023/actions/workflows/test-coverage.yaml/badge.svg)](https://github.com/yixuanlyx/bis620.2023/actions/workflows/test-coverage.yaml)
+<!-- badges: end -->
+
+The goal of bis620.2023 is to start the shiny app we built for checking
+information on clinicaltrials.gov website.
 
 ## Installation
 
