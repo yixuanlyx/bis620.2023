@@ -1,4 +1,5 @@
 library(shiny)
+library(dplyr)
 
 source("ct-util.R")
 max_num_studies <- 5000
@@ -26,7 +27,7 @@ ui <- fluidPage(
 
       #Yixuan-feature 1:
       #Add checkboxes so that queries can be subset on study type
-      checkboxGroupInput("study_type","Study Type",
+      checkboxGroupInput("study_type", "Study Type",
                          c("Interventional",
                            "Observational",
                            "Observational [Patient Registry]",
@@ -91,9 +92,9 @@ server <- function(input, output) {
     # return studies
     #depending on user input of brief title keyword and sponsor name
     if (input$brief_title_kw == "" & input$name.y == "") {
-      ret = studies
-      }
-      else if (input$brief_title_kw != "" & input$name.y == ""){
+      ret <- studies
+    }
+    else if (input$brief_title_kw != "" & input$name.y == "") {
       ret = query_kwds(studies, si, "brief_title", match_all = TRUE)}
       else if (input$brief_title_kw == "" & input$name.y != ""){
       ret = query_kwds(studies, ss, '"name.y"', match_all = TRUE)
@@ -152,5 +153,3 @@ server <- function(input, output) {
 
 # Run the application
 shinyApp(ui = ui, server = server)
-
-
