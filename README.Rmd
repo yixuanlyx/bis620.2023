@@ -36,14 +36,16 @@ devtools::install_github("yixuanlyx/bis620.2023")
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+This is a example which shows you how to launching the Shiny app:
 
 ``` r
 library(bis620.2023)
-## code for launching the Shiny app
+## function for launching the Shiny app
 runapp <- function() {
   app <- system.file("App", package = "bis620.2023")
   shiny::runApp(app)
 }
+## code for lauching the app
+runapp()
 ```
 
