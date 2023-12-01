@@ -16,7 +16,8 @@ Imports:
   ggplot2,
   tidyr,
   magrittr,
-  purrr
+  purrr,
+  shiny
 Suggests: 
     knitr,
     rmarkdown,
