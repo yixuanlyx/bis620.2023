@@ -1,12 +1,13 @@
-#' Accelerometry Data resampled from UK Biobank
+#' Synthesized UKBiobank Accelerometry Data
 #'
-#' Toy accelerometry data for BIS620
+#' A toy accelerometry dataset from UKBiobank where:
 #'
-#' @format ## `accel`
-#' A data frame with 1,080,000 rows and 3 columns:
-#' \describe{
-#'   \item{time}{the time of the measurement}
-#'   \item{X, Y, Z}{Accelerometry (in milligravities).}
-#' }
-
-"accel"
+#' `time` is the time of the measurement;
+#' `X` acceleration in the "X" direction;
+#' `Y` acceleration in the "Y" direction;
+#' `Z` acceleration in the "Z" direction;
+#'
+#' @name dl
+#' @docType data
+#' @keywords data
+NULL

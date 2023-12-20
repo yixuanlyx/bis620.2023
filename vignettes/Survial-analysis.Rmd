@@ -1,0 +1,61 @@
+---
+title: "Influential Factors on Death Rates in Colon Cancer: Panitumumab + FOLFOX versus FOLFOX Alone"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Survival analysis}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+
+## Introduction
+
+## Objective
+
+## Method
+Using the bis620.2023 package, we aim to conduct data processing, exploration, visualization and survival analysis on the Panitumumab dataset. 
+
+In the data process part, the adsl, adae and biomark datasets were joined together and the variables of interest were extracted and factorized to form a final dataset, which contains all the information needed in our analysis. It should be noted that we used the same KRAS categorization method as in homework 2. The patient will be considered “Mutant” if there is at least one “Mutant” biomarker in KRAS exons 2, 3, 4. Patients will be considered “Wild-type” if they are not “Mutant” and they have more “Wild-type” markers than “Unknown” or “Failure”. In addition, the severity of adverse event in our analysis refers to the highest severity of any kind of adverse event ever experienced by a patient.
+
+In the data exploration part, a table summarizing the basic characteristics of the subjects was created. For the patients’ age in years at screening and weight in kilograms at baseline, mean, median, standard deviation and range in each arm and the total were reported. For the patients’ sex, biomarker type and severity code, the corresponding number and proportion of patients in each arm and the total were reported.
+In the data visualization part, for each of the 5 variables of interest, a corresponding histogram demonstrating their distribution in each arm was created. Two continuous variables, age and weight, were divided into several intervals to facilitate the visualization.
+
+In the survival analysis part, each variable of interest was combined with the actual treatment and a Kaplan-Meier curve was fitted and plotted. The number at risk, number of events, median and confidence limits for each arm was also provided. The Kaplan-Meier curves were then compared using the pairwise_survdiff function to examine whether the survival probability is significant different between any pair of arms.
+
+## Results
+
+### 
+
+
+
+
+###
+
+```{r setup}
+library(bis620.2023)
+library(lubridate)
+library(dplyr)
+library(ggplot2)
+data(accel)
+
+t1 <- accel$time[50000]
+
+accel |>
+  filter(time > t1 & time <= t1 + minutes(5)) |>
+  spec_sig(take_log = TRUE) |>
+  filter(freq <= 3) |>
+  plot_accel(x_var = "freq") + theme_bw()
+```
+
+
+
+
+
