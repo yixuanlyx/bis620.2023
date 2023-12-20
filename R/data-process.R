@@ -29,6 +29,5 @@ data_process <- function(dl) {
   demo2$AESEVCD <- factor(demo2$AESEVCD, levels = c('No Event', '1','2','3','4'),  exclude = NULL)
   final <- demo2 |> select(SUBJID, DTHDY, DTH,ATRT, AGE, SEX, B_WEIGHT, marker, AESEVCD)
   final$marker <- factor(final$marker, levels = c('Unknown', 'Mutant','Wild-type'),  exclude = NULL)
-
-
+  return(final)
 }

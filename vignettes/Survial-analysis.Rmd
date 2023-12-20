@@ -14,47 +14,134 @@ knitr::opts_chunk$set(
 )
 ```
 
+## Team member
 
+Yixuan Liang (yl2536)
+
+Yuhan Jin (yj328)
+
+Shuangrui Chen (sc3237)
 
 ## Introduction
 
-## Objective
+Colon cancer is currently one of the malignant tumors with a high incidence and death rate worldwide [1]. It is the second leading cause of cancer death worldwide, with over 1.8 million new cases and 0.9 million deaths in 2020 [2]. Over the past years, considerable progress has been made in the adjuvant treatment of patients with colon cancer. Panitumumab is a fully human monoclonal antibody that targets the epidermal growth factor receptor (EGFR) and has shown antitumor activity across multiple lines of therapy for non mutated KRAS metastatic colorectal cancer (mCRC)  [3]. Based on the results of the MOSAIC study, the US Food and Drug Administration approved the FOLFOX4 regimen for postoperative adjuvant therapy in patients with stage III colon cancer in November 2004 [4]. FOLFOX plus panitumumab is a standard first-line option for RAS wild-type metastatic colorectal cancer [5].  In this study, rigorous statistics was conducted  to investigate whether significant differences exist in the impact of five key variables ( age, sex, weight, KRAS mutation, and severity of adverse events) on the death rate between two treatment groups. The first group received a combination of Panitumumab and FOLFOX, while the second group received only FOLFOX. By analyzing these comparative results, the combined influence of a patient's demographic characteristics and the specific treatment received on the survival outcomes can be more comprehensively understood.
+
 
 ## Method
-Using the bis620.2023 package, we aim to conduct data processing, exploration, visualization and survival analysis on the Panitumumab dataset. 
 
-In the data process part, the adsl, adae and biomark datasets were joined together and the variables of interest were extracted and factorized to form a final dataset, which contains all the information needed in our analysis. It should be noted that we used the same KRAS categorization method as in homework 2. The patient will be considered “Mutant” if there is at least one “Mutant” biomarker in KRAS exons 2, 3, 4. Patients will be considered “Wild-type” if they are not “Mutant” and they have more “Wild-type” markers than “Unknown” or “Failure”. In addition, the severity of adverse event in our analysis refers to the highest severity of any kind of adverse event ever experienced by a patient.
+The bis620.2023 package was designed to conduct data processing, exploration, visualization and survival analysis on the Panitumumab dataset. 
 
-In the data exploration part, a table summarizing the basic characteristics of the subjects was created. For the patients’ age in years at screening and weight in kilograms at baseline, mean, median, standard deviation and range in each arm and the total were reported. For the patients’ sex, biomarker type and severity code, the corresponding number and proportion of patients in each arm and the total were reported.
-In the data visualization part, for each of the 5 variables of interest, a corresponding histogram demonstrating their distribution in each arm was created. Two continuous variables, age and weight, were divided into several intervals to facilitate the visualization.
+In the data processing part,  adsl, adae and biomark datasets were joined together and the variables of interest were extracted and factorized to form a final dataset, which contained all the information needed in our analysis. It should be noted that we used the same KRAS categorization method as in homework 2. Patients will be considered “Mutant” if there is at least one “Mutant” biomarker in KRAS exons 2, 3, 4. Patients will be considered “Wild-type” if they are not “Mutant” and they have more “Wild-type” markers than “Unknown” or “Failure”. In addition, the severity of adverse events in our analysis refers to the highest severity of any kind of adverse event ever experienced by a patient.
 
-In the survival analysis part, each variable of interest was combined with the actual treatment and a Kaplan-Meier curve was fitted and plotted. The number at risk, number of events, median and confidence limits for each arm was also provided. The Kaplan-Meier curves were then compared using the pairwise_survdiff function to examine whether the survival probability is significant different between any pair of arms.
+In the data exploration part, a table summarizing the basic characteristics of the subjects was created.  For the age in years at screening and weight in kilograms at baseline of the patients, the mean, median, standard deviation, and range were reported for each arm of the study and the total population. Regarding the patients' sex, biomarker type, and severity code, the number and proportion of patients in each category were reported for each arm and the overall study population.
+
+In the data visualization part, for each of the 5 variables of interest, a corresponding histogram demonstrating its distribution in each arm was created. Two continuous variables, age and weight, were divided into several intervals to facilitate the visualization.
+
+In the survival analysis part, each variable of interest was integrated with the actual treatment to test predictions. Kaplan-Meier curves were created and displayed for each study arm. Additionally, details such as the number of individuals at risk, the number of events, along with the median and confidence limits, were summarized for each arm.  Cox Proportional-Hazards Models were applied to compare the survival outcomes across the different arms.
+
 
 ## Results
 
-### 
+### Exploratory analysis
+
+The study had a total of 620 participants, with each treatment arm consisting of 310 individuals. The mean age among those receiving FOLFOX alone was 60.3 years (SD = 11.1), with a median age of 61 years, and an age range of 27 to 81 years. Participants in the Panitumumab + FOLFOX arm had a mean age of 61.7 years (SD = 10.4), with a median age of 62.5 years, and an age range of 30 to 85 years. Overall study group had a mean age of 61.0 years (SD = 10.8), with a median of 62 years, and a comprehensive age range of 27 to 85 years. Gender showed a higher proportion of males to females. In the FOLFOX alone group, males was 56.8% (n=176), while females was 43.2% (n=134). The Panitumumab + FOLFOX group had a higher percentage of males at 61.0% (n=189) and a correspondingly lower female representation at 39.0% (n=121). Overall males comprised 58.9% (n=365) of the total study population, and females was 41.1% (n=255). The mean baseline weight was 71.6 kilograms (SD = 16.3) in the FOLFOX alone group and 73.0 kilograms (SD = 15.2) in the Panitumumab + FOLFOX group. The median weights were 70.0 kg [range: 36.0, 163] and 71.4 kg [range: 38.0, 147] respectively. The entire cohort had the mean weight at 72.3 kilograms (SD = 15.8), with a median weight of 70.7 kg [range: 36.0, 163]. The genetic marker status was categorized into 'Unknown', 'Mutant', and 'Wild-type'. In the FOLFOX alone arm, the unknown marker status was 8.4% (n=26), mutant status was 47.1% (n=146), and wild-type status was 44.5% (n=138). The Panitumumab + FOLFOX arm had slightly fewer unknowns at 6.8% (n=21), mutants at 45.8% (n=142), and a similar percentage of wild-types at 47.4% (n=147). Overall, the unknown marker status was 7.6% (n=47), mutant status was 46.5% (n=288), and wild-type status was nearly half at 46.0% (n=285). Adverse event severity was graded from 1 to 4, with 'No Event' also recorded. In the FOLFOX alone group, 67.1% (n=208) had no adverse events, while the Panitumumab + FOLFOX group had a significantly lower incidence of no events at 4.2% (n=13). Grade 1 adverse events were relatively similar across both groups. However, grade 2 and 3 events were notably higher in the Panitumumab + FOLFOX group, with grade 2 events at 37.1% (n=115) and grade 3 events at 32.6% (n=101), compared to 9.7% (n=30) and 1.0% (n=3) respectively in the FOLFOX alone group. Grade 4 events were only reported in the Panitumumab + FOLFOX group at 1.6% (n=5).
 
 
-
-
-###
-
-```{r setup}
+```{r}
+devtools::load_all()
+data("dl")
 library(bis620.2023)
-library(lubridate)
-library(dplyr)
-library(ggplot2)
-data(accel)
-
-t1 <- accel$time[50000]
-
-accel |>
-  filter(time > t1 & time <= t1 + minutes(5)) |>
-  spec_sig(take_log = TRUE) |>
-  filter(freq <= 3) |>
-  plot_accel(x_var = "freq") + theme_bw()
+df <- data_process(dl)
+summary_table(df)
 ```
 
+```{r fig.width=8, fig.height=8}
+plot(df)
+```
+
+
+
+
+
+
+### Survival model 
+
+#### Sex
+
+For females on FOLFOX alone, the median survival time was 558 days, with a 95% confidence interval ranging from 478 to 665 days. Females receiving Panitumumab + FOLFOX had a median survival time of 585 days (95% CI: 486 to 659 days). Males on FOLFOX alone had a median survival time of 595 days (95% CI: 512 to 692 days), while males on Panitumumab + FOLFOX had a median survival time of 575 days (95% CI: 472 to 695 days).
+
+The Cox regression model did not show a statistically significant difference in the hazard of death between treatment arms when stratified by sex. The hazard ratios were as follows: Females on Panitumumab + FOLFOX had a hazard ratio of 1.044 (p=0.763, 95% CI: 0.787 to 1.385), males on FOLFOX alone had a hazard ratio of 1.051 (p=0.702, 95% CI: 0.813 to 1.360), and males on Panitumumab + FOLFOX had a hazard ratio of 1.011 (p=0.934, 95% CI: 0.780 to 1.309). The overall concordance statistic of 0.497 indicated a poor predictive accuracy of the model for survival based on the treatment arms and sex. The likelihood ratio test, Wald test, and score (logrank) test all provided p-values of 1, indicating no evidence to reject the null hypothesis of no difference between the treatment groups. 
+
+
+```{r fig.width=8, fig.height=6}
+survATRT_SEX(df)
+```
+
+
+
+#### Age
+
+In the youngest age group (25 to 40 years), those on FOLFOX alone had a median survival of 397 days, while those on Panitumumab + FOLFOX had a notably longer median survival of 652 days, although the upper confidence limit was not estimable in both cases due to sample size limitations. Patients aged 40 to 60 years showed similar median survivals of 614 days for FOLFOX alone and 602 days for Panitumumab + FOLFOX. In the oldest age group (60 to 85 years), median survivals were 553 days for FOLFOX alone and 549 days for Panitumumab + FOLFOX.
+
+The Cox model did not demonstrate statistically significant differences. The hazard ratios for the different age and treatment groups were as follows: the youngest group receiving Panitumumab + FOLFOX had a hazard ratio of 0.822 (p=0.686, 95% CI: 0.318 to 2.124). The middle age group (40 to 60 years) had hazard ratios of 0.829 for FOLFOX alone (p=0.559, 95% CI: 0.442 to 1.554) and 0.893 for Panitumumab + FOLFOX (p=0.724, 95% CI: 0.475 to 1.678). The oldest group had hazard ratios of 1.046 for FOLFOX alone (p=0.885, 95% CI: 0.566 to 1.934) and 0.991 for Panitumumab + FOLFOX (p=0.978, 95% CI: 0.536 to 1.832). The overall concordance statistic of 0.521 indicated a slight predictive ability of the model, but this is close to random chance (0.5). The likelihood ratio test, Wald test, and score (logrank) test all resulted in p-values around 0.6, indicating no significant differences in the survival experiences of the different age groups between the two treatment regimens.
+
+
+```{r fig.width=8, fig.height=6}
+survATRT_AGE(df)
+```
+
+
+#### Weight
+
+For the lowest weight category ([35, 50) kg), patients on FOLFOX alone had a median survival time of 614 days, whereas those on Panitumumab + FOLFOX had a median survival of 436 days. In the intermediate weight category ([50, 75) kg), the median survival times were 512 days for FOLFOX alone and 564 days for Panitumumab + FOLFOX. The highest weight category ([75, 100) kg) showed median survival times of 689 days for FOLFOX alone and 627 days for Panitumumab + FOLFOX. For the category of [100, 165) kg, patients on FOLFOX alone had a median survival of 502 days compared to 672 days for those on Panitumumab + FOLFOX. The upper confidence limits were not estimable due to sample size limitations in some weight categories.
+
+The Cox regression model did not show statistically significant differences. The hazard ratios for Panitumumab + FOLFOX ranged from 0.5768 to 0.8423 across the weight categories, with corresponding p-values indicating no statistical significance (all p-values > 0.2). The confidence intervals for all hazard ratios crossed 1, further suggesting a lack of significant difference between the treatment arms within weight strata. The concordance index was 0.527, indicating a slight predictive ability, albeit close to random chance. The likelihood ratio test, Wald test, and score (logrank) test all had p-values of around 0.6, again showing no significant difference in survival among the different weight categories between the treatment regimens.
+
+
+
+```{r fig.width=8, fig.height=6}
+survATRT_WEIGHT(df)
+```
+
+#### Biomarker
+
+Participants with a Mutant genetic marker on FOLFOX alone had a median survival of 627 days (95% CI: 508 to 693), while those on Panitumumab + FOLFOX had a median survival of 430 days (95% CI: 359 to 549). For those with an Unknown marker status, median survival was 529 days (95% CI: 423 to 901) on FOLFOX alone and 587 days (95% CI: 416 to 1122) on Panitumumab + FOLFOX. Participants with a Wild-type genetic marker had a median survival of 553 days (95% CI: 484 to 718) on FOLFOX alone and 722 days (95% CI: 602 to 874) on Panitumumab + FOLFOX.
+
+In the Cox regression analysis, two significant findings were reported. For patients with a Mutant genetic marker, the hazard ratio for Panitumumab + FOLFOX was 1.304 (p=0.0399, 95% CI: 1.012 to 1.682), indicating a statistically significant increased risk of death compared to FOLFOX alone. For those with a Wild-type genetic marker, the hazard ratio for Panitumumab + FOLFOX was 0.710 (p=0.0128, 95% CI: 0.542 to 0.930), suggesting a significant reduction in the risk of death compared to FOLFOX alone. No significant effects were observed for participants with an Unknown genetic marker status. The concordance statistic was 0.55, indicating moderate predictive accuracy for the model. The overall model showed statistical significance with p-values of 0.001 or less across the likelihood ratio test, Wald test, and score (logrank) test, suggesting that genetic marker status has a significant effect on the survival experience of the participants.
+
+
+```{r fig.width=8, fig.height=6}
+survATRT_marker(df)
+```
+
+#### Adverse event
+
+For patients with an adverse event severity of 1, FOLFOX alone showed a median survival of 614 days (95% CI: 489 to 772), while Panitumumab + FOLFOX showed a notably lower median survival of 309 days (95% CI: 256 to 606). Patients with an adverse event severity of 2 had median survivals of 482 days for FOLFOX alone and 565 days for Panitumumab + FOLFOX. For severity level 3, median survival for FOLFOX alone was 508 days, and for Panitumumab + FOLFOX, it was 652 days. Notably, only one category of severity 4 was reported, exclusively for Panitumumab + FOLFOX, with a median survival of 823 days. Patients with no events had median survivals of 558 days for FOLFOX alone and 250 days for Panitumumab + FOLFOX, with the upper confidence limit not estimable in some cases due to sample size limitations.
+
+The Cox regression analysis demonstrated a significant association between treatment with Panitumumab + FOLFOX and increased risk of death for patients with an adverse event severity of 1, with a hazard ratio of 1.624 (p=0.0114, 95% CI: 1.115 to 2.364). No other adverse event severity levels showed significant differences in risk of death between the two treatment arms. The concordance index was 0.557, suggesting a moderate predictive accuracy of the model. The likelihood ratio and score (logrank) tests were marginally significant (p=0.06 and p=0.04, respectively), while the Wald test indicated a significant model fit (p=0.05), suggesting that there may be a relationship between adverse event severity and survival, particularly for those with a severity of 1.
+
+
+```{r fig.width=8, fig.height=6}
+survATRT_AESEVCD(df)
+```
+
+
+## Conclusion
+
+In conclusion, this study meticulously analyzed the impact of various factors on survival rates in colon cancer patients treated with FOLFOX alone and combined with Panitumumab. The results highlighted no significant differences in survival when stratified by sex, age, and weight. However, significant findings emerged in the genetic marker analysis, revealing that patients with a Mutant marker had an increased risk of death with Panitumumab + FOLFOX, while those with a Wild-type marker showed reduced risk compared to FOLFOX alone. The study contributes vital insights into the complex interplay of demographic characteristics, genetic markers, and treatment efficacy, offering guidance for personalized cancer treatment strategies.
+
+
+## Reference
+
+[1] W, Yi C, Zhu H. Predictive biomarkers of colon cancer immunotherapy: Present and future. Front Immunol. 2022 Nov 22;13:1032314. doi: 10.3389/fimmu.2022.1032314. PMID: 36483562; PMCID: PMC9722772.
+
+[2] Xin J, Du M, Gu D, Jiang K, Wang M, Jin M, Hu Y, Ben S, Chen S, Shao W, Li S, Chu H, Zhu L, Li C, Chen K, Ding K, Zhang Z, Shen H, Wang M. Risk assessment for colorectal cancer via polygenic risk score and lifestyle exposure: a large-scale association study of East Asian and European populations. Genome Med. 2023 Jan 24;15(1):4. doi: 10.1186/s13073-023-01156-9. PMID: 36694225; PMCID: PMC9875451.
+
+[3] Gemmete JJ, Mukherji SK. Panitumumab (vectibix). AJNR Am J Neuroradiol. 2011 Jun-Jul;32(6):1002-3. doi: 10.3174/ajnr.A2601. Epub 2011 May 19. PMID: 21596817; PMCID: PMC8013163.
+ 
+[4] Jeon HJ, Woo JH, Lee HY, Park KJ, Choi HJ. Adjuvant Chemotherapy Using the FOLFOX Regimen in Colon Cancer. J Korean Soc Coloproctol. 2011 Jun;27(3):140-6. doi: 10.3393/jksc.2011.27.3.140. Epub 2011 Jun 30. PMID: 21829769; PMCID: PMC3145885.
+
+[5] Battaglin F, Schirripa M, Buggin F, Pietrantonio F, Morano F, Boscolo G, Tonini G, Lutrino ES, Lucchetti J, Salvatore L, Passardi A, Cremolini C, Arnoldi E, Scartozzi M, Pella N, Boni L, Bergamo F, Zagonel V, Loupakis F, Lonardi S. The PANDA study: a randomized phase II study of first-line FOLFOX plus panitumumab versus 5FU plus panitumumab in RAS and BRAF wild-type elderly metastatic colorectal cancer patients. BMC Cancer. 2018 Jan 25;18(1):98. doi: 10.1186/s12885-018-4001-x. PMID: 29370781; PMCID: PMC5784655.
 
 
 

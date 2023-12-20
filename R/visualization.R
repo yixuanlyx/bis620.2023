@@ -9,9 +9,6 @@
 #' facet_wrap theme element_text cut_width
 #' @importFrom dplyr inner_join group_by summarize count
 #' @importFrom gridExtra grid.arrange
-#' @examples
-#' data(ukb_accel)
-#' summary_sex(ukb_accel)
 #' @export
 
 plot <- function(final){

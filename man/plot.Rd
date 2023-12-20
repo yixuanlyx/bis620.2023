@@ -16,7 +16,3 @@ a plot of number of females and males.
 \description{
 This function Create a plot of number of total females and males
 }
-\examples{
-data(ukb_accel)
-summary_sex(ukb_accel)
-}

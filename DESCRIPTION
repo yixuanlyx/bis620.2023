@@ -21,7 +21,8 @@ Imports:
   table1,
   gridExtra,
   survival,
-  survminer
+  survminer,
+  devtools
 Suggests: 
     knitr,
     rmarkdown,
